@@ -19,6 +19,7 @@ $app->run();
 <body>
   <div id="container">
     <form action="" method="post" id="signup">
+	  <p class="title">Create account</p>	
       <p>
         <input type="text" name="email" placeholder="email" value="<?= isset($app->getValues()->email) ? h($app->getValues()->email) : ''; ?>">
 		  <!--getValues() で返ってくる stdClass() は存在しないプロパティにアクセスすると Notice が出てしまうので、isset() で$app->getValues()->emailを調べてあげると良いかと思います。これがもしセットされていたらエスケープしつつ表示をしてあげて、そうでなかったら空文字としてあげれば OK かと思います。-->
@@ -40,3 +41,23 @@ $app->run();
 <!--#16 CSRF 対策-->
 <!--色々なやり方がありますが、変なフォームから投稿されていないかチェックしたいので、セッションに token を仕込みつつ、フォームから渡された token と一致するか見てあげます。-->
 <!--token をまず作りたいのですが、こちらのインスタンスができた時に仕込んでいきたいと思うので、Controller.php のコンストラクターでやっていけば良いでしょう。-->
+
+<!--
+require_once --- 外部ファイルを一度だけ読み込む制御構文。
+                 require文は、何度でも再読み込みできるが、require_once文は、一度読み込んだファイルを再読み込みすることはない。
+
+new --- インスタンスの作成。「new クラス名()」でクラスのインスタンスが作られます。
+  　　　　※オブジェクトの設計図が「クラス」オブジェクトの実体は「インスタンス」。インスタンスはクラスをもとに作られる。
+
+-> クラスの変数、関数の呼び出し
+=> 連想配列の値設定
+
+
+
+
+
+
+
+
+
+-->

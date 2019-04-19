@@ -20,13 +20,14 @@ form#logout {
 
 input[type=text],
 input[type=password] {
+  width: 280px;	
   padding: 5px;
   border-radius: 4px;
   font-size: 14px;
 }
 
 .btn {
-  width: 100px;
+  width: 280px;
   padding: 7px;
   border-radius: 5px;
   color: #fff;

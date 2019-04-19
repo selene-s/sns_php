@@ -22,6 +22,7 @@ $app->run();
 <body>
   <div id="container">
     <form action="" method="post" id="login">
+	  <p class="title">Enter your login</p>	
       <p>
         <input type="text" name="email" placeholder="email" value="<?= isset($app->getValues()->email) ? h($app->getValues()->email) : ''; ?>"><!--email もエラーが出た時に、残っていて欲しいので、ここもコピーしてあげましょう。from signup.phpより必要箇所をコピー　＃21-->
       </p>

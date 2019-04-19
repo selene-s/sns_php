@@ -1,22 +1,17 @@
 <?php
 
-// ユーザーの一覧
-/*まずは今まで作ってきた config の情報を呼び出してあげたいので、今いるディレクトリのひとつ上の config ディレクトリの config.php を読み込んであげれば OK ですね。*/
+///////////////ユーザーの一覧
+
+/*config の情報を呼び出してあげたいので、今いるディレクトリのひとつ上の config ディレクトリの config.php を読み込む*/
 require_once(__DIR__ . '/../config/config.php');
 
-// var_dump($_SESSION['me']);
-
-//require_once(__DIR__ . '/../config/config.php');//どうすれば良いかというと…、ログイン処理をしているはずなので、$_SESSION['me'] にログインしたユーザーの情報が入ってくるはずです。
-
-//var_dump($_SESSION['me']);
 
 
-
-
-/*このビューに表示するデータを Controller から引っ張ってくることにしましょう。*/
+/*このビューに表示するデータを Controller から引っ張ってくる処理*/
+/*Controllerのインスタンスを作る*/
 $app = new MyApp\Controller\Index();
 
-/*run() というメソッドを呼び出してあげて、ユーザーの一覧を表示するのに必要なデータを引っ張ってきてあげましょう。*/
+/*run() というメソッドを呼び出してあげて、ユーザーの一覧を表示するのに必要なデータを引っ張ってくる。それをHTMLへ反映させる*/
 $app->run();
 
 // $app->me() → Controller.phpの方で実装
@@ -33,7 +28,7 @@ $app->run();
 <body>
   <div id="container">
     <form action="logout.php" method="post" id="logout">
-      <?= h($app->me()->email); ?> <input type="submit" value="Log Out">
+      <?= h($app->me()->email); ?> <input type="submit" value="Log Out" class="logout-button">
       <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
     </form>
     <h1>Users <span class="fs12">(<?= count($app->getValues()->users); ?>)</span></h1>
