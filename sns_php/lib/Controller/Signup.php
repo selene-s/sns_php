@@ -8,37 +8,41 @@ class Signup extends \MyApp\Controller {
     if ($this->isLoggedIn()) {
       header('Location: ' . SITE_URL);
       exit;
-    }
+    }//ログインしていたらフォームに飛ばす
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $this->postProcess();
     }
   }
 //SignUp のところは新規登録のフォームがあるので、フォームがもしポストされたらと書いていってあげれば OK 
+//$_SERVER['REQUEST_METHOD'] === 'POST' だった場合、次の処理、postProcess();というメソッド。後述。↓
 	
-
+/*	
+private	    そのクラスからしかアクセスできない
+protected	そのクラスと、サブクラスからしかアクセスできない
+public	    どこからでもアクセスできる
+*/
+	
+//Exception クラスを継承して独自の例外クラスを作り、それを catch していく流れ
   protected function postProcess() {
   //////////////validate
     try {
       $this->_validate();
     } catch (\MyApp\Exception\InvalidEmail $e) {
-      //echo $e->getMessage();
-      //exit;
+      
+      
 	  $this->setErrors('email', $e->getMessage());
     } catch (\MyApp\Exception\InvalidPassword $e) {
-      //echo $e->getMessage();
-      //exit;
+     //メールアドレスの形式が正しくない場合
+  
 	  $this->setErrors('password', $e->getMessage());
-    }
-
-    //echo "success";
-    //exit;
+    }//英数字にはまらないパスワードがきた場合
 	  
 	$this->setValues('email', $_POST['email']);
   
 
 	if ($this->hasError()) {
-      return;
+      return;//tureだった場合、処理を止めてreyurn
     } else {
 //////////////// create user
 	  try {
@@ -51,13 +55,14 @@ class Signup extends \MyApp\Controller {
         $this->setErrors('email', $e->getMessage());
         return;//例外処理なのですが考えられるエラーとしては、email が既に存在する場合なので…、その場合は DuplicateEmail という例外を返してあげましょう
       }
-
 /////////////// redirect to login
       header('Location: ' . SITE_URL . '/login.php');
       exit;
     }
   }
-
+//---------------------------------------------------------------------------------------
+//バリデート処理
+	
   private function _validate() {
 	if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
       echo "Invalid Token!";
@@ -66,12 +71,12 @@ class Signup extends \MyApp\Controller {
 	  
     if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
       throw new \MyApp\Exception\InvalidEmail();
-    }
+    }//渡ってきた email を filter_var()命令の、FILTER_VALIDATE_EMAIL のオプションで検証して OK ではなかったら、例外を返す
 
     if (!preg_match('/\A[a-zA-Z0-9]+\z/', $_POST['password'])) {
       throw new \MyApp\Exception\InvalidPassword();
     }
-  }//'/\A[a-zA-Z0-9]+\z/' パスワードの正規表現
+  }//'/\A[a-zA-Z0-9]+\z/' パスワードの正規表現にマッチしなかったら例外を返す
 
 }
 
