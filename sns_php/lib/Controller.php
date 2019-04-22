@@ -1,14 +1,14 @@
 <?php
-//Controller にエラーオブジェクトを持たせて setErrors() とか getErrors() のメソッドを作っていきましょう。
-//これらの処理は Controller 共通の処理としてまとめておきたいので Controller.php のほうに書いていきます。
+//Controller にエラーオブジェクトを持たせて setErrors() とか getErrors() のメソッドを作っていく。
+//これらの処理は Controller 共通の処理としてまとめておきたいので Controller.php のほうに書く。
 namespace MyApp;
 
 class Controller {
 
-  private $_errors;//まずはエラー情報を格納するためのプライベードプロパティを宣言してあげましょう。
+  private $_errors;//まずはエラー情報を格納するためのプライベードプロパティを宣言。
   private $_values;//パスワードエラーが出た時にも、入力した email アドレスは残るように
 	
-  public function __construct() {//それからそちらを初期化したいのでコンストラクタでやっていきましょう
+  public function __construct() {//それからプライベートプロパティを初期化したいのでコンストラクタ使用
     if (!isset($_SESSION['token'])) {
       $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(16));
     }//もし $_SESSION['token'] がセットされていなかったら（セット）しなさい。
@@ -17,8 +17,8 @@ class Controller {
 	  
     $this->_errors = new \stdClass();
 	$this->_values = new \stdClass();
-  }//今回はこちらの $this->_errors は PHP の stdClass() にしておきたいと思います。
-   //この stdClass() なのですが、PHP デフォルトのクラスで宣言することなくいきなり new して使うことができる特殊なオブジェクトになっています。オブジェクト型のデータをさっと作りたい時に便利。
+  }//PHP の stdClass() 
+   //この stdClass() は、PHP デフォルトのクラスで宣言することなくいきなり new して使うことができる特殊なオブジェクトになっています。オブジェクト型のデータをさっと作りたい時に便利。
 	
   protected function setValues($key, $value) {
     $this->_values->$key = $value;
@@ -30,17 +30,16 @@ class Controller {
 	
   protected function setErrors($key, $error) {
     $this->_errors->$key = $error;
-  }//setErrors()は継承されたクラスから使うので protected にしてあげつつ、setErrors としてあげて、$key と$error を渡してあげるとしてあげましょう。
+  }//setErrors()は継承されたクラスから使うので protected にしてあげつつ、setErrors としてあげて、$key と$error を渡してあげる
 
   public function getErrors($key) {
     return isset($this->_errors->$key) ?  $this->_errors->$key : '';
-  }//getErrors() に関しては、インスタンスから呼ぶので public にしないと駄目ですね。
-   //もしセットされていたらこれを返せば良いですし、そうでなかったら空文字と書いてあげます。
-	
+  }//getErrors() に関しては、インスタンスから呼ぶので public にしないと駄目。
+   //もしセットされていたらこれ（$key）を返せば良いですし、そうでなかったら空文字''と書いてあげます。
   protected function hasError() {
     return !empty(get_object_vars($this->_errors));
-  }//こちらも継承されたクラスから使うので protected で、hasError としてあげて…、引数はなしですね。
-   //こちらの $this->_errors を調べてあげて、それが空でなかったら、としてあげれば OK ですね。
+  }//こちらも継承されたクラスから使うので protected で、hasError としてあげて引数はなし。
+   //$this->_errors を調べてあげて、それが空でなかったら、としてあげれば OK。
    //empty とした後に get_object_vars でプロパティを取得してあげましょう。	
 
   protected function isLoggedIn() {
