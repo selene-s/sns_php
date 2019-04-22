@@ -24,11 +24,12 @@ $app->run();
         <input type="text" name="email" placeholder="email" value="<?= isset($app->getValues()->email) ? h($app->getValues()->email) : ''; ?>">
 		  <!--getValues() で返ってくる stdClass() は存在しないプロパティにアクセスすると Notice が出てしまうので、isset() で$app->getValues()->emailを調べてあげると良いかと思います。これがもしセットされていたらエスケープしつつ表示をしてあげて、そうでなかったら空文字としてあげれば OK かと思います。-->
       </p>
-	  <p class="err"><?= h($app->getErrors('email')); ?></p>
+	  <p class="err"><?= h($app->getErrors('email')); ?></p><!--emailエラー時の文言-->
       <p>
         <input type="password" name="password" placeholder="password">
       </p>
-	  <p class="err"><?= h($app->getErrors('password')); ?></p>
+	  <p class="err"><?= h($app->getErrors('password')); ?></p><!--passwordエラー時の文言-->
+		
       <div class="btn" onclick="document.getElementById('signup').submit();">Sign Up</div>
       <p class="fs12"><a href="/login.php">Log In</a></p>
 	  <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
@@ -51,12 +52,6 @@ new --- インスタンスの作成。「new クラス名()」でクラスのイ
 
 -> クラスの変数、関数の呼び出し
 => 連想配列の値設定
-
-
-
-
-
-
 
 
 
